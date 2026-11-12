@@ -1,23 +1,23 @@
 # Guaynora.Dots
 
-Configuración de mi escritorio en **Arch Linux + Hyprland**, con tema **Catppuccin Mocha** en todo.
+My desktop setup on **Arch Linux + Hyprland**, themed with **Catppuccin Mocha** throughout.
 
-| Paquete | Qué contiene |
+| Package | Contents |
 |---|---|
-| `hypr` | Hyprland (config en Lua), hyprlock, hypridle, hyprpaper |
-| `waybar` | Barra flotante solo con iconos |
-| `wofi` | Lanzador de apps y menús |
-| `dunst` | Notificaciones |
-| `kitty` | Terminal (transparente, JetBrainsMono Nerd Font) |
-| `zsh` | `.zshrc` / `.zshenv`: autosugerencias, resaltado, fzf, zoxide, starship |
-| `tmux` | Prefijo por defecto (`Ctrl+b`), ratón, divisiones con `\|` y `-` |
+| `hypr` | Hyprland (Lua config), hyprlock, hypridle, hyprpaper |
+| `waybar` | Floating, icon-only bar |
+| `wofi` | App launcher and menus |
+| `dunst` | Notifications |
+| `kitty` | Terminal (translucent, JetBrainsMono Nerd Font) |
+| `zsh` | `.zshrc` / `.zshenv`: autosuggestions, syntax highlighting, fzf, zoxide, starship |
+| `tmux` | Default prefix (`Ctrl+b`), mouse support, `\|` and `-` splits |
 | `nvim` | LazyVim |
-| `lazygit` | Tema Catppuccin + diffs con delta |
-| `scripts` | Scripts en `~/.local/bin` (menú de apagado, módulos de Waybar, actualizar) |
+| `lazygit` | Catppuccin theme + diffs with delta |
+| `scripts` | Scripts in `~/.local/bin` (power menu, Waybar modules, system update) |
 
-## Instalación
+## Installation
 
-Se usa [GNU Stow](https://www.gnu.org/software/stow/) para crear los enlaces simbólicos.
+[GNU Stow](https://www.gnu.org/software/stow/) is used to create the symlinks.
 
 ```sh
 git clone https://github.com/Guaynora/Guaynora.Dots ~/.dotfiles
@@ -25,7 +25,7 @@ cd ~/.dotfiles
 stow hypr waybar wofi dunst kitty zsh tmux nvim lazygit scripts
 ```
 
-### Paquetes necesarios
+### Required packages
 
 ```sh
 sudo pacman -S hyprland hyprpaper hyprlock hypridle hyprpolkitagent xdg-desktop-portal-hyprland \
@@ -35,24 +35,24 @@ sudo pacman -S hyprland hyprpaper hyprlock hypridle hyprpolkitagent xdg-desktop-
   zsh-autosuggestions zsh-syntax-highlighting zsh-completions stow
 ```
 
-## Atajos principales
+## Key bindings
 
-| Atajo | Acción |
+| Binding | Action |
 |---|---|
 | `SUPER + Q` | Terminal |
-| `SUPER + C` | Cerrar ventana |
-| `SUPER + R` | Lanzador de apps |
+| `SUPER + C` | Close window |
+| `SUPER + R` | App launcher |
 | `SUPER + B` | Firefox |
-| `SUPER + E` | Archivos |
-| `SUPER + L` | Bloquear pantalla |
-| `SUPER + Escape` | Menú de apagado |
-| `SUPER + SPACE` | Cambiar teclado us / es |
-| `SUPER + SHIFT + V` | Historial del portapapeles |
-| `SUPER + SHIFT + P` | Captura de una zona (se guarda en `~/Pictures`) |
-| `SUPER + CTRL + P` | Captura de pantalla completa |
-| `SUPER + SHIFT + G` | lazygit flotante |
-| `SUPER + SHIFT + T` | btop flotante |
-| `SUPER + 1…0` | Ir al escritorio |
-| `SUPER + SHIFT + 1…0` | Mover ventana al escritorio |
+| `SUPER + E` | File manager |
+| `SUPER + L` | Lock screen |
+| `SUPER + Escape` | Power menu |
+| `SUPER + SPACE` | Switch keyboard layout (us / es) |
+| `SUPER + SHIFT + V` | Clipboard history |
+| `SUPER + SHIFT + P` | Screenshot of a region (saved to `~/Pictures`) |
+| `SUPER + CTRL + P` | Full-screen screenshot |
+| `SUPER + SHIFT + G` | Floating lazygit |
+| `SUPER + SHIFT + T` | Floating btop |
+| `SUPER + 1…0` | Go to workspace |
+| `SUPER + SHIFT + 1…0` | Move window to workspace |
 
-El fondo de pantalla no está en el repo: va en `~/Pictures/wallpapers/` (ver `hyprpaper.conf`).
+The wallpaper is not included in the repo: put it in `~/Pictures/wallpapers/` (see `hyprpaper.conf`).

@@ -33,7 +33,7 @@
   },
   "clock": {
     "format": "{:L%A %H:%M}",
-    "format-alt": "{:L%d %B %Y · semana %V}",
+    "format-alt": "{:L%d %B %Y · week %V}",
     "tooltip": false
   },
   "custom/updates": {
@@ -41,7 +41,7 @@
     "return-type": "json",
     "interval": 3600,
     "signal": 7,
-    "on-click": "kitty --class float-tui -e /home/guaynora/.local/bin/actualizar-sistema"
+    "on-click": "kitty --class float-tui -e /home/guaynora/.local/bin/system-update"
   },
   "idle_inhibitor": {
     "format": "{icon}",
@@ -49,8 +49,8 @@
       "activated": "󰅶",
       "deactivated": "󰤄"
     },
-    "tooltip-format-activated": "No dormir: activado\nLa pantalla no se bloquea ni se apaga",
-    "tooltip-format-deactivated": "Bloqueo automático normal\nClic para que no se duerma"
+    "tooltip-format-activated": "Stay awake: on\nScreen won't lock or turn off",
+    "tooltip-format-deactivated": "Auto-lock: normal\nClick to stay awake"
   },
   "custom/dnd": {
     "exec": "/home/guaynora/.local/bin/waybar-dnd",
@@ -73,7 +73,7 @@
   },
   "custom/expand-icon": {
     "format": "",
-    "tooltip-format": "Mostrar bandeja"
+    "tooltip-format": "Show tray"
   },
   "tray": {
     "icon-size": 18,
@@ -90,9 +90,9 @@
       "󰤨"
     ],
     "format-disconnected": "󰌘",
-    "tooltip-format-ethernet": "Conectado por cable",
+    "tooltip-format-ethernet": "Wired connection",
     "tooltip-format-wifi": "{essid} ({signalStrength}%)",
-    "tooltip-format-disconnected": "Sin conexión",
+    "tooltip-format-disconnected": "Disconnected",
     "on-click": "nm-connection-editor"
   },
   "pulseaudio": {
@@ -106,7 +106,7 @@
         "󰕾"
       ]
     },
-    "tooltip-format": "Volumen: {volume}%",
+    "tooltip-format": "Volume: {volume}%",
     "scroll-step": 5,
     "on-click": "pavucontrol",
     "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
@@ -118,7 +118,7 @@
   },
   "custom/power": {
     "format": "󰐥",
-    "tooltip-format": "Apagar, reiniciar, bloquear…",
-    "on-click": "/home/guaynora/.local/bin/menu-apagado"
+    "tooltip-format": "Power off, reboot, lock…",
+    "on-click": "/home/guaynora/.local/bin/power-menu"
   }
 }

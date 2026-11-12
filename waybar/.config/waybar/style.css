@@ -1,4 +1,4 @@
-/* Waybar — isla flotante, solo iconos · Catppuccin Mocha */
+/* Waybar — floating island, icons only · Catppuccin Mocha */
 @define-color base     #1e1e2e;
 @define-color surface1 #45475a;
 @define-color overlay0 #6c7086;
@@ -31,7 +31,7 @@ window#waybar {
 tooltip { background: @base; border: 1px solid @surface1; border-radius: 8px; }
 tooltip label { color: @text; }
 
-/* Escritorios: puntos, el activo es una píldora */
+/* Workspaces: dots, the active one is a pill */
 #workspaces { margin-left: 14px; }
 #workspaces button {
   min-width: 8px; min-height: 8px;
@@ -46,14 +46,14 @@ tooltip label { color: @text; }
 #workspaces button.urgent { background: @red; }
 #workspaces button:hover { background: @subtext0; box-shadow: none; }
 
-/* Centro */
+/* Center */
 #clock { color: @rosewater; font-weight: bold; padding: 0 10px; }
 #custom-updates, #idle_inhibitor, #custom-dnd { font-size: 18px; padding: 0 7px; color: @overlay0; }
 #custom-updates.available { color: @green; }
 #idle_inhibitor.activated { color: @peach; }
 #custom-dnd.on { color: @red; }
 
-/* Derecha: solo iconos */
+/* Right: icons only */
 #custom-expand-icon, #tray, #network, #pulseaudio, #language, #custom-power {
   font-size: 18px;
   padding: 0 11px;

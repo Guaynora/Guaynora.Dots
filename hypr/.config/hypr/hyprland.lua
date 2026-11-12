@@ -58,9 +58,9 @@ local menu = "wofi"
 hl.on("hyprland.start", function()
 	hl.exec_cmd("waybar")
 	hl.exec_cmd("hyprpaper")
-	hl.exec_cmd("hypridle")                                -- bloqueo/apagado por inactividad
-	hl.exec_cmd("wl-paste --type text --watch cliphist store")  -- historial portapapeles (texto)
-	hl.exec_cmd("wl-paste --type image --watch cliphist store") -- historial portapapeles (imágenes)
+	hl.exec_cmd("hypridle")                                -- lock / screen off on idle
+	hl.exec_cmd("wl-paste --type text --watch cliphist store")  -- clipboard history (text)
+	hl.exec_cmd("wl-paste --type image --watch cliphist store") -- clipboard history (images)
 end)
 
 
@@ -73,14 +73,14 @@ end)
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
 
--- ~/.local/bin en el PATH (para mis scripts)
+-- Add ~/.local/bin to PATH (for my scripts)
 hl.env("PATH", os.getenv("HOME") .. "/.local/bin:" .. os.getenv("PATH"))
 
 -- NVIDIA
 hl.env("LIBVA_DRIVER_NAME", "nvidia")
 hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
 
--- Temas Qt (configurar con qt6ct)
+-- Qt theming (configure with qt6ct)
 hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
 
 
@@ -255,7 +255,7 @@ hl.config({
 
 hl.config({
     input = {
-        kb_layout  = "us,es",   -- us = principal, es = secundaria (SUPER + SPACE para cambiar)
+        kb_layout  = "us,es",   -- us = main, es = secondary (SUPER + SPACE to switch)
         kb_variant = "",
         kb_model   = "",
         kb_options = "",
@@ -297,29 +297,29 @@ hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))    -- dwindle only
 
--- Cambiar distribución de teclado (us <-> es)
-hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd("hyprctl switchxkblayout all next && notify-send -t 1500 'Teclado' \"$(hyprctl devices -j | grep -m1 active_keymap | cut -d'\"' -f4)\""))
+-- Switch keyboard layout (us <-> es)
+hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd("hyprctl switchxkblayout all next && notify-send -t 1500 'Keyboard' \"$(hyprctl devices -j | grep -m1 active_keymap | cut -d'\"' -f4)\""))
 
--- Apps y menús (estilo Omarchy)
+-- Apps and menus (Omarchy style)
 hl.bind(mainMod .. " + B",         hl.dsp.exec_cmd("firefox"))
 hl.bind(mainMod .. " + SHIFT + G", hl.dsp.exec_cmd("kitty --class float-tui -e lazygit"))
 hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd("kitty --class float-tui -e btop"))
-hl.bind(mainMod .. " + Escape",    hl.dsp.exec_cmd(os.getenv("HOME") .. "/.local/bin/menu-apagado"))
+hl.bind(mainMod .. " + Escape",    hl.dsp.exec_cmd(os.getenv("HOME") .. "/.local/bin/power-menu"))
 
--- Bloquear pantalla
+-- Lock screen
 hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("loginctl lock-session"))
 
--- Historial del portapapeles
+-- Clipboard history
 hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd("cliphist list | wofi --dmenu | cliphist decode | wl-copy"))
 
--- Capturas de pantalla (se copian al portapapeles; con SHIFT también se guardan en ~/Pictures)
+-- Screenshots (copied to clipboard; with SHIFT also saved to ~/Pictures)
 hl.bind("Print",           hl.dsp.exec_cmd('grim -g "$(slurp)" - | wl-copy'))
-hl.bind("SHIFT + Print",   hl.dsp.exec_cmd('f=~/Pictures/captura_$(date +%Y%m%d_%H%M%S).png; grim -g "$(slurp)" "$f" && wl-copy < "$f"'))
-hl.bind(mainMod .. " + Print", hl.dsp.exec_cmd("grim - | wl-copy"))  -- pantalla completa
+hl.bind("SHIFT + Print",   hl.dsp.exec_cmd('f=~/Pictures/screenshot_$(date +%Y%m%d_%H%M%S).png; grim -g "$(slurp)" "$f" && wl-copy < "$f"'))
+hl.bind(mainMod .. " + Print", hl.dsp.exec_cmd("grim - | wl-copy"))  -- full screen
 
--- Capturas sin tecla Print (teclados Corne / 65%): siempre se guardan en ~/Pictures y se copian
-hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd('f=~/Pictures/captura_$(date +%Y%m%d_%H%M%S).png; grim -g "$(slurp)" "$f" && wl-copy < "$f" && notify-send -t 2000 "Captura guardada" "$f"'))  -- zona
-hl.bind(mainMod .. " + CTRL + P",  hl.dsp.exec_cmd('f=~/Pictures/captura_$(date +%Y%m%d_%H%M%S).png; grim "$f" && wl-copy < "$f" && notify-send -t 2000 "Captura guardada" "$f"'))                -- pantalla completa
+-- Screenshots without a Print key (Corne / 65% keyboards): always saved to ~/Pictures and copied
+hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd('f=~/Pictures/screenshot_$(date +%Y%m%d_%H%M%S).png; grim -g "$(slurp)" "$f" && wl-copy < "$f" && notify-send -t 2000 "Screenshot saved" "$f"'))  -- region
+hl.bind(mainMod .. " + CTRL + P",  hl.dsp.exec_cmd('f=~/Pictures/screenshot_$(date +%Y%m%d_%H%M%S).png; grim "$f" && wl-copy < "$f" && notify-send -t 2000 "Screenshot saved" "$f"'))                -- full screen
 
 -- Move focus with mainMod + arrow keys
 hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }))
@@ -394,7 +394,7 @@ hl.window_rule({
     no_focus = true,
 })
 
--- Blur detrás de Waybar
+-- Blur behind Waybar
 hl.layer_rule({
     name  = "waybar-blur",
     match = { namespace = "^waybar$" },
@@ -410,7 +410,7 @@ hl.layer_rule({
 -- })
 -- overlayLayerRule:set_enabled(false)
 
--- Ventanas pequeñas que deben abrirse flotando y centradas
+-- Small utility windows open floating and centered
 hl.window_rule({
     name  = "float-utilidades",
     match = { class = "^(org\\.pulseaudio\\.pavucontrol|nm-connection-editor|xdg-desktop-portal-gtk)$" },
@@ -419,7 +419,7 @@ hl.window_rule({
     size   = "900 600",
 })
 
--- lazygit / btop en terminal flotante grande
+-- lazygit / btop in a large floating terminal
 hl.window_rule({
     name  = "float-tui",
     match = { class = "^float-tui$" },

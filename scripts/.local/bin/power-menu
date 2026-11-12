@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Power menu using wofi
+choice=$(printf '󰌾  Lock\n󰍃  Log out\n󰤄  Suspend\n󰜉  Reboot\n󰐥  Power off' \
+  | wofi --dmenu --prompt "Session" --width 340 --height 330 --cache-file /dev/null)
+case "$choice" in
+  *Lock)           loginctl lock-session ;;
+  *"Log out")       hyprctl dispatch 'hl.dsp.exit()' ;;
+  *Suspend)        systemctl suspend ;;
+  *Reboot)         systemctl reboot ;;
+  *"Power off")    systemctl poweroff ;;
+esac
