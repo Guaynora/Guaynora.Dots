@@ -83,3 +83,21 @@ yay -S catppuccin-gtk-theme-mocha catppuccin-cursors-mocha papirus-folders-catpp
 | `SUPER + SHIFT + 1…0` | Move window to workspace |
 
 The wallpaper is not included in the repo: put it in `~/Pictures/wallpapers/` (see `hyprpaper.conf`).
+
+## Login screen (SDDM)
+
+[sddm-astronaut-theme](https://github.com/Keyitdev/sddm-astronaut-theme) with my wallpaper and Catppuccin colors.
+These are system files, so they are copied instead of stowed:
+
+```sh
+sudo pacman -S --needed sddm qt6-svg qt6-virtualkeyboard qt6-multimedia-ffmpeg
+sudo git clone -b master --depth 1 https://github.com/keyitdev/sddm-astronaut-theme.git /usr/share/sddm/themes/sddm-astronaut-theme
+sudo cp -r /usr/share/sddm/themes/sddm-astronaut-theme/Fonts/* /usr/share/fonts/
+sudo mkdir -p /etc/sddm.conf.d /usr/share/backgrounds
+printf '[Theme]\nCurrent=sddm-astronaut-theme\n' | sudo tee /etc/sddm.conf.d/theme.conf
+sudo install -m644 ~/Pictures/wallpapers/ada-wong-resident-evil-cj-3440x1440.jpg /usr/share/backgrounds/ada-wong-3440x1440.jpg
+sudo install -m644 system/sddm/astronaut.conf.user /usr/share/sddm/themes/sddm-astronaut-theme/Themes/astronaut.conf.user
+```
+
+The overrides live in `astronaut.conf.user`, which theme updates (`git pull`) don't touch.
+SDDM can't read `~` (it runs as its own user), so the wallpaper is copied to `/usr/share/backgrounds`.
