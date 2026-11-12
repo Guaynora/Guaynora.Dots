@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+sudo pacman -Syu
+pkill -RTMIN+7 waybar
+echo; read -n1 -rsp "Listo. Pulsa una tecla para cerrar..."

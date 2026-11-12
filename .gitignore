@@ -1,8 +1,5 @@
-tt.*
-.tests
-doc/tags
-debug
-.repro
-foo.*
+# Copias de seguridad y basura
+*.bak
+*.old
 *.log
-data
+.DS_Store

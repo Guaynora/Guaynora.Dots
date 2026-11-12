@@ -1,0 +1,124 @@
+{
+  "reload_style_on_change": true,
+  "layer": "top",
+  "position": "top",
+  "height": 40,
+  "margin-top": 10,
+  "margin-left": 20,
+  "margin-right": 20,
+  "spacing": 0,
+  "modules-left": [
+    "hyprland/workspaces"
+  ],
+  "modules-center": [
+    "clock",
+    "custom/updates",
+    "idle_inhibitor",
+    "custom/dnd"
+  ],
+  "modules-right": [
+    "group/tray-expander",
+    "network",
+    "pulseaudio",
+    "hyprland/language",
+    "custom/power"
+  ],
+  "hyprland/workspaces": {
+    "format": "",
+    "persistent-workspaces": {
+      "*": 5
+    },
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1"
+  },
+  "clock": {
+    "format": "{:L%A %H:%M}",
+    "format-alt": "{:L%d %B %Y · semana %V}",
+    "tooltip": false
+  },
+  "custom/updates": {
+    "exec": "/home/guaynora/.local/bin/waybar-updates",
+    "return-type": "json",
+    "interval": 3600,
+    "signal": 7,
+    "on-click": "kitty --class float-tui -e /home/guaynora/.local/bin/actualizar-sistema"
+  },
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "󰅶",
+      "deactivated": "󰤄"
+    },
+    "tooltip-format-activated": "No dormir: activado\nLa pantalla no se bloquea ni se apaga",
+    "tooltip-format-deactivated": "Bloqueo automático normal\nClic para que no se duerma"
+  },
+  "custom/dnd": {
+    "exec": "/home/guaynora/.local/bin/waybar-dnd",
+    "return-type": "json",
+    "interval": "once",
+    "signal": 10,
+    "on-click": "/home/guaynora/.local/bin/waybar-dnd toggle"
+  },
+  "group/tray-expander": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 400,
+      "children-class": "tray-group-item",
+      "click-to-reveal": true
+    },
+    "modules": [
+      "custom/expand-icon",
+      "tray"
+    ]
+  },
+  "custom/expand-icon": {
+    "format": "",
+    "tooltip-format": "Mostrar bandeja"
+  },
+  "tray": {
+    "icon-size": 18,
+    "spacing": 12
+  },
+  "network": {
+    "format-ethernet": "󰈀",
+    "format-wifi": "{icon}",
+    "format-icons": [
+      "󰤯",
+      "󰤟",
+      "󰤢",
+      "󰤥",
+      "󰤨"
+    ],
+    "format-disconnected": "󰌘",
+    "tooltip-format-ethernet": "Conectado por cable",
+    "tooltip-format-wifi": "{essid} ({signalStrength}%)",
+    "tooltip-format-disconnected": "Sin conexión",
+    "on-click": "nm-connection-editor"
+  },
+  "pulseaudio": {
+    "format": "{icon}",
+    "format-muted": "󰝟",
+    "format-icons": {
+      "headphone": "󰋋",
+      "default": [
+        "󰕿",
+        "󰖀",
+        "󰕾"
+      ]
+    },
+    "tooltip-format": "Volumen: {volume}%",
+    "scroll-step": 5,
+    "on-click": "pavucontrol",
+    "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+  },
+  "hyprland/language": {
+    "format": "{short}",
+    "on-click": "hyprctl switchxkblayout all next",
+    "tooltip": false
+  },
+  "custom/power": {
+    "format": "󰐥",
+    "tooltip-format": "Apagar, reiniciar, bloquear…",
+    "on-click": "/home/guaynora/.local/bin/menu-apagado"
+  }
+}

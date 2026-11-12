@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Indicador "no molestar" (dunst). Con "toggle" lo activa/desactiva.
+if [ "$1" = toggle ]; then
+  dunstctl set-paused toggle
+  pkill -RTMIN+10 waybar
+  exit 0
+fi
+if [ "$(dunstctl is-paused)" = true ]; then
+  echo '{"text":"󰂛","tooltip":"No molestar: activado\nClic para desactivar","class":"on"}'
+else
+  echo '{"text":"󰂚","tooltip":"Notificaciones activas\nClic para silenciarlas","class":"off"}'
+fi

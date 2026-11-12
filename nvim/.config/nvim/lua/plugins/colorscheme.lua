@@ -1,30 +1,16 @@
+-- Tema Catppuccin Mocha (a juego con kitty, waybar, etc.) con fondo transparente
 return {
-  -- add gruvbox
-  { "ellisonleao/gruvbox.nvim" },
   {
     "catppuccin/nvim",
     name = "catppuccin",
     opts = {
-      transparent_background = true,
       flavour = "mocha",
-    },
-    integrations = {
-      cmp = true,
-      gitsigns = true,
-      nvimtree = true,
-      treesitter = true,
-      notify = false,
-      mini = {
-        enabled = true,
-        indentscope_color = "",
-      },
+      transparent_background = true, -- deja ver la transparencia y el blur de kitty
+      float = { transparent = true, solid = false },
     },
   },
-  -- Configure LazyVim to load gruvbox
   {
     "LazyVim/LazyVim",
-    opts = {
-      colorscheme = "catppuccin",
-    },
+    opts = { colorscheme = "catppuccin" },
   },
 }

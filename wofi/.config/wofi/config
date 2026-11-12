@@ -1,0 +1,8 @@
+show=drun
+width=640
+height=440
+prompt=Buscar...
+allow_images=true
+image_size=30
+insensitive=true
+no_actions=true

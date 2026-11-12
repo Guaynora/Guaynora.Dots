@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Muestra un icono en Waybar solo si hay actualizaciones de Arch
+command -v checkupdates >/dev/null || exit 0
+n=$(checkupdates 2>/dev/null | wc -l)
+if [ "$n" -gt 0 ]; then
+  printf '{"text":"󰚰","tooltip":"%s actualizaciones disponibles\\nClic para actualizar","class":"available"}\n' "$n"
+else
+  echo '{"text":"","tooltip":"","class":"none"}'
+fi
