@@ -52,6 +52,20 @@ command -v zoxide  >/dev/null && eval "$(zoxide init zsh --cmd cd)"   # cd learn
 source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh
 
+# ---------- yazi: "y" opens it and cds into the last visited folder on exit ----------
+y() {
+  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+  yazi "$@" --cwd-file="$tmp"
+  IFS= read -r -d '' cwd < "$tmp"
+  [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+  rm -f -- "$tmp"
+}
+
+# ---------- Greeting: fastfetch only in a fresh kitty window (not in tmux or nested shells) ----------
+if [[ -o interactive && -z $TMUX && $SHLVL -eq 1 && $TERM == xterm-kitty ]] && command -v fastfetch >/dev/null; then
+  fastfetch
+fi
+
 # ---------- Plugins ----------
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh  # must be last

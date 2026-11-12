@@ -70,6 +70,7 @@ end)
 
 -- See https://wiki.hypr.land/configuring/core/environment-variables/
 
+hl.env("XCURSOR_THEME", "catppuccin-mocha-dark-cursors")
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
 
@@ -82,6 +83,9 @@ hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
 
 -- Qt theming (configure with qt6ct)
 hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
+
+-- Lets Dolphin and other KDE apps find installed apps outside Plasma ("Open with")
+hl.env("XDG_MENU_PREFIX", "arch-")
 
 
 -----------------------
@@ -304,6 +308,7 @@ hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd("hyprctl switchxkblayout all next
 hl.bind(mainMod .. " + B",         hl.dsp.exec_cmd("firefox"))
 hl.bind(mainMod .. " + SHIFT + G", hl.dsp.exec_cmd("kitty --class float-tui -e lazygit"))
 hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd("kitty --class float-tui -e btop"))
+hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd("kitty --class float-tui -e yazi"))
 hl.bind(mainMod .. " + Escape",    hl.dsp.exec_cmd(os.getenv("HOME") .. "/.local/bin/power-menu"))
 
 -- Lock screen
