@@ -304,7 +304,7 @@ hl.bind(mainMod .. " + P", hl.dsp.window.pseudo(), { description = "Pseudo-tile 
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"), { description = "Toggle split direction" })    -- dwindle only
 
 -- Switch keyboard layout (us <-> es)
-hl.bind(mainMod .. " + ALT + SPACE", hl.dsp.exec_cmd("hyprctl switchxkblayout all next && notify-send -t 1500 'Keyboard' \"$(hyprctl devices -j | grep -m1 active_keymap | cut -d'\"' -f4)\""), { description = "Switch keyboard layout (us / es)" })
+hl.bind(mainMod .. " + ALT + SPACE", hl.dsp.exec_cmd(bin .. "kb-layout-toggle"), { description = "Switch keyboard layout (us / es)" })
 
 -- Apps and menus (Omarchy style)
 -- Open-or-focus: jump to the app if it is already open, launch it otherwise

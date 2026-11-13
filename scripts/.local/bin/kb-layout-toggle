@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Toggle the keyboard layout (us <-> es) on every keyboard at once.
+# "switchxkblayout all next" advances each device separately, so devices that
+# drift apart (a keyboard reconnecting starts back at "us") end up toggling
+# in opposite directions. Instead, read the main keyboard and set the same
+# explicit index on all of them.
+set -euo pipefail
+
+json=$(hyprctl devices -j)
+count=$(jq -r '[.keyboards[] | select(.main)][0].layout | split(",") | length' <<<"$json")
+current=$(jq -r '[.keyboards[] | select(.main)][0].active_layout_index' <<<"$json")
+target=$(( (current + 1) % count ))
+
+hyprctl switchxkblayout all "$target" >/dev/null
+
+name=$(hyprctl devices -j | jq -r '[.keyboards[] | select(.main)][0].active_keymap')
+notify-send -t 1500 -h string:x-dunst-stack-tag:kb-layout "Keyboard" "$name"
