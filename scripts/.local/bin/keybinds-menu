@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Searchable list of Hyprland keybindings (only binds with a description).
+# Descriptions come from the `description` option in hyprland.lua.
+
+hyprctl binds -j | jq -r '
+  def mods:
+    [ (if . / 64 | floor % 2 == 1 then "SUPER" else empty end),
+      (if . / 4  | floor % 2 == 1 then "CTRL"  else empty end),
+      (if . / 8  | floor % 2 == 1 then "ALT"   else empty end),
+      (if .      % 2 == 1         then "SHIFT" else empty end) ];
+  def key:
+    { "mouse:272": "Left click", "mouse:273": "Right click",
+      "mouse_down": "Scroll down", "mouse_up": "Scroll up" }[.] // (if length == 1 then ascii_upcase else (.[0:1] | ascii_upcase) + .[1:] end);
+  .[] | select(.has_description)
+  # collapse the per-number workspace binds into one line each
+  | if (.description | test("workspace [0-9]+$")) then
+      if .key == "1" then .description |= sub(" [0-9]+$"; " 1…10") | .key = "1…0"
+      else empty end
+    else . end
+  | [ ((.modmask | mods) + [.key | key] | join(" + ")), .description ]
+  | @tsv' \
+| awk -F'\t' '{ printf "%-26s %s\n", $1, $2 }' \
+| wofi --dmenu --prompt "Keybindings" --width 720 --height 760 \
+       --cache-file /dev/null -D allow_images=false >/dev/null

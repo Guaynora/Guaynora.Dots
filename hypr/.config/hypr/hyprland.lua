@@ -259,7 +259,7 @@ hl.config({
 
 hl.config({
     input = {
-        kb_layout  = "us,es",   -- us = main, es = secondary (SUPER + SPACE to switch)
+        kb_layout  = "us,es",   -- us = main, es = secondary (SUPER + ALT + SPACE to switch)
         kb_variant = "",
         kb_model   = "",
         kb_options = "",
@@ -289,68 +289,75 @@ hl.gesture({
 ---------------------
 
 local mainMod = "SUPER" -- Sets "Windows" key as main modifier
+local bin = os.getenv("HOME") .. "/.local/bin/"
 
 -- Example binds, see https://wiki.hypr.land/configuring/core/binds/ for more
-hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(terminal))
-local closeWindowBind = hl.bind(mainMod .. " + C", hl.dsp.window.close())
+hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(terminal), { description = "Terminal" })
+local closeWindowBind = hl.bind(mainMod .. " + C", hl.dsp.window.close(), { description = "Close window" })
 -- closeWindowBind:set_enabled(false)
-hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
-hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
-hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
-hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
-hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
-hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))    -- dwindle only
+hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"), { description = "Exit Hyprland" })
+hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(bin .. "focus-or-launch '^org\\.kde\\.dolphin$' " .. fileManager), { description = "File manager" })
+hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }), { description = "Toggle floating" })
+hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(menu), { description = "App launcher" })
+hl.bind(mainMod .. " + K", hl.dsp.exec_cmd(bin .. "keybinds-menu"), { description = "Keybindings help" })
+hl.bind(mainMod .. " + P", hl.dsp.window.pseudo(), { description = "Pseudo-tile window" })
+hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"), { description = "Toggle split direction" })    -- dwindle only
 
 -- Switch keyboard layout (us <-> es)
-hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd("hyprctl switchxkblayout all next && notify-send -t 1500 'Keyboard' \"$(hyprctl devices -j | grep -m1 active_keymap | cut -d'\"' -f4)\""))
+hl.bind(mainMod .. " + ALT + SPACE", hl.dsp.exec_cmd("hyprctl switchxkblayout all next && notify-send -t 1500 'Keyboard' \"$(hyprctl devices -j | grep -m1 active_keymap | cut -d'\"' -f4)\""), { description = "Switch keyboard layout (us / es)" })
 
 -- Apps and menus (Omarchy style)
-hl.bind(mainMod .. " + B",         hl.dsp.exec_cmd("firefox"))
-hl.bind(mainMod .. " + SHIFT + G", hl.dsp.exec_cmd("kitty --class float-tui -e lazygit"))
-hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd("kitty --class float-tui -e btop"))
-hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd("kitty --class float-tui -e yazi"))
-hl.bind(mainMod .. " + Escape",    hl.dsp.exec_cmd(os.getenv("HOME") .. "/.local/bin/power-menu"))
+-- Open-or-focus: jump to the app if it is already open, launch it otherwise
+-- (SUPER+Q always opens a new terminal)
+hl.bind(mainMod .. " + B",         hl.dsp.exec_cmd(bin .. "focus-or-launch '^firefox$' firefox"), { description = "Firefox" })
+hl.bind(mainMod .. " + SHIFT + G", hl.dsp.exec_cmd(bin .. "focus-or-launch '^float-tui-lazygit$' kitty --class float-tui-lazygit -e lazygit"), { description = "lazygit" })
+hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd(bin .. "focus-or-launch '^float-tui-btop$' kitty --class float-tui-btop -e btop"), { description = "btop" })
+hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd(bin .. "focus-or-launch '^float-tui-yazi$' kitty --class float-tui-yazi -e yazi"), { description = "yazi" })
+hl.bind(mainMod .. " + Escape",    hl.dsp.exec_cmd(bin .. "power-menu"), { description = "Power menu" })
+
+-- Wallpaper picker (~/Pictures/wallpapers)
+hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd(bin .. "wallpaper-select"), { description = "Wallpaper picker" })
 
 -- Lock screen
-hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("loginctl lock-session"))
+hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("loginctl lock-session"), { description = "Lock screen" })
 
 -- Clipboard history
-hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd("cliphist list | wofi --dmenu | cliphist decode | wl-copy"))
+hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd("cliphist list | wofi --dmenu | cliphist decode | wl-copy"), { description = "Clipboard history" })
 
 -- Screenshots (copied to clipboard; with SHIFT also saved to ~/Pictures)
-hl.bind("Print",           hl.dsp.exec_cmd('grim -g "$(slurp)" - | wl-copy'))
-hl.bind("SHIFT + Print",   hl.dsp.exec_cmd('f=~/Pictures/screenshot_$(date +%Y%m%d_%H%M%S).png; grim -g "$(slurp)" "$f" && wl-copy < "$f"'))
-hl.bind(mainMod .. " + Print", hl.dsp.exec_cmd("grim - | wl-copy"))  -- full screen
+hl.bind("Print",           hl.dsp.exec_cmd('grim -g "$(slurp)" - | wl-copy'), { description = "Screenshot region to clipboard" })
+hl.bind("SHIFT + Print",   hl.dsp.exec_cmd('f=~/Pictures/screenshot_$(date +%Y%m%d_%H%M%S).png; grim -g "$(slurp)" "$f" && wl-copy < "$f"'), { description = "Screenshot region, save + copy" })
+hl.bind(mainMod .. " + Print", hl.dsp.exec_cmd("grim - | wl-copy"), { description = "Screenshot full screen to clipboard" })  -- full screen
 
 -- Screenshots without a Print key (Corne / 65% keyboards): always saved to ~/Pictures and copied
-hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd('f=~/Pictures/screenshot_$(date +%Y%m%d_%H%M%S).png; grim -g "$(slurp)" "$f" && wl-copy < "$f" && notify-send -t 2000 "Screenshot saved" "$f"'))  -- region
-hl.bind(mainMod .. " + CTRL + P",  hl.dsp.exec_cmd('f=~/Pictures/screenshot_$(date +%Y%m%d_%H%M%S).png; grim "$f" && wl-copy < "$f" && notify-send -t 2000 "Screenshot saved" "$f"'))                -- full screen
+hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd('f=~/Pictures/screenshot_$(date +%Y%m%d_%H%M%S).png; grim -g "$(slurp)" "$f" && wl-copy < "$f" && notify-send -t 2000 "Screenshot saved" "$f"'), { description = "Screenshot region, save + copy" })  -- region
+hl.bind(mainMod .. " + CTRL + P",  hl.dsp.exec_cmd('f=~/Pictures/screenshot_$(date +%Y%m%d_%H%M%S).png; grim "$f" && wl-copy < "$f" && notify-send -t 2000 "Screenshot saved" "$f"'), { description = "Screenshot full screen, save + copy" })                -- full screen
 
 -- Move focus with mainMod + arrow keys
-hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }))
-hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
-hl.bind(mainMod .. " + up",    hl.dsp.focus({ direction = "up" }))
-hl.bind(mainMod .. " + down",  hl.dsp.focus({ direction = "down" }))
+hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }), { description = "Focus left" })
+hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }), { description = "Focus right" })
+hl.bind(mainMod .. " + up",    hl.dsp.focus({ direction = "up" }), { description = "Focus up" })
+hl.bind(mainMod .. " + down",  hl.dsp.focus({ direction = "down" }), { description = "Focus down" })
 
 -- Switch workspaces with mainMod + [0-9]
 -- Move active window to a workspace with mainMod + SHIFT + [0-9]
 for i = 1, 10 do
     local key = i % 10 -- 10 maps to key 0
-    hl.bind(mainMod .. " + " .. key,             hl.dsp.focus({ workspace = i}))
-    hl.bind(mainMod .. " + SHIFT + " .. key,     hl.dsp.window.move({ workspace = i }))
+    hl.bind(mainMod .. " + " .. key,             hl.dsp.focus({ workspace = i}), { description = "Go to workspace " .. i })
+    hl.bind(mainMod .. " + SHIFT + " .. key,     hl.dsp.window.move({ workspace = i }), { description = "Move window to workspace " .. i })
 end
 
 -- Example special workspace (scratchpad)
-hl.bind(mainMod .. " + S",         hl.dsp.workspace.toggle_special("magic"))
-hl.bind(mainMod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }))
+hl.bind(mainMod .. " + S",         hl.dsp.workspace.toggle_special("magic"), { description = "Toggle scratchpad" })
+hl.bind(mainMod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }), { description = "Move window to scratchpad" })
 
 -- Scroll through existing workspaces with mainMod + scroll
-hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
-hl.bind(mainMod .. " + mouse_up",   hl.dsp.focus({ workspace = "e-1" }))
+hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }), { description = "Next workspace" })
+hl.bind(mainMod .. " + mouse_up",   hl.dsp.focus({ workspace = "e-1" }), { description = "Previous workspace" })
 
 -- Move/resize windows with mainMod + LMB/RMB and dragging
-hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
-hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
+hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { description = "Move window (drag)", mouse = true })
+hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { description = "Resize window (drag)", mouse = true })
 
 -- Laptop multimedia keys for volume and LCD brightness
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true })
@@ -427,7 +434,7 @@ hl.window_rule({
 -- lazygit / btop in a large floating terminal
 hl.window_rule({
     name  = "float-tui",
-    match = { class = "^float-tui$" },
+    match = { class = "^float-tui(-.+)?$" },
     float  = true,
     center = true,
     size   = "1600 950",

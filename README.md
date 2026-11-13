@@ -41,6 +41,10 @@ ya pkg install
 # libadwaita (GTK4) apps ignore the GTK theme name, so link the theme's CSS
 theme=/usr/share/themes/catppuccin-mocha-blue-standard+default/gtk-4.0
 for f in gtk.css gtk-dark.css assets; do ln -sfn "$theme/$f" ~/.config/gtk-4.0/$f; done
+
+# hyprpaper reads the current wallpaper through this symlink (SUPER+SHIFT+W changes it)
+mkdir -p ~/.local/state/wallpaper
+ln -sfn ~/Pictures/wallpapers/<image> ~/.local/state/wallpaper/current
 ```
 
 KDE apps keep their own color scheme. In Dolphin, pick **Catppuccin Mocha** from the
@@ -63,26 +67,31 @@ yay -S catppuccin-gtk-theme-mocha catppuccin-cursors-mocha papirus-folders-catpp
 
 ## Key bindings
 
+`SUPER + K` lists every bind that has a `description` in `hyprland.lua`.
+
 | Binding | Action |
 |---|---|
 | `SUPER + Q` | Terminal |
 | `SUPER + C` | Close window |
-| `SUPER + R` | App launcher |
-| `SUPER + B` | Firefox |
-| `SUPER + E` | File manager |
+| `SUPER + SPACE` | App launcher |
+| `SUPER + K` | Keybindings help (searchable) |
+| `SUPER + V` | Toggle floating |
+| `SUPER + B` | Firefox (focuses it if already open) |
+| `SUPER + E` | File manager (focuses it if already open) |
 | `SUPER + L` | Lock screen |
 | `SUPER + Escape` | Power menu |
-| `SUPER + SPACE` | Switch keyboard layout (us / es) |
+| `SUPER + ALT + SPACE` | Switch keyboard layout (us / es) |
 | `SUPER + SHIFT + V` | Clipboard history |
 | `SUPER + SHIFT + P` | Screenshot of a region (saved to `~/Pictures`) |
 | `SUPER + CTRL + P` | Full-screen screenshot |
-| `SUPER + SHIFT + G` | Floating lazygit |
-| `SUPER + SHIFT + T` | Floating btop |
+| `SUPER + SHIFT + G` | Floating lazygit (focuses it if already open) |
+| `SUPER + SHIFT + T` | Floating btop (focuses it if already open) |
 | `SUPER + SHIFT + E` | Floating yazi |
+| `SUPER + SHIFT + W` | Wallpaper picker (`~/Pictures/wallpapers`) |
 | `SUPER + 1…0` | Go to workspace |
 | `SUPER + SHIFT + 1…0` | Move window to workspace |
 
-The wallpaper is not included in the repo: put it in `~/Pictures/wallpapers/` (see `hyprpaper.conf`).
+The wallpaper is not included in the repo: put your images in `~/Pictures/wallpapers/`.
 
 ## Login screen (SDDM)
 

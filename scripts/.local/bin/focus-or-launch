@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Focus an existing window whose class matches, or launch the app if none is open.
+# Usage: focus-or-launch <class-regex> <command> [args...]
+# If the focused window already matches, cycle to the next matching one.
+set -euo pipefail
+
+class="$1"; shift
+
+mapfile -t addrs < <(hyprctl clients -j | jq -r --arg re "$class" \
+  '[.[] | select(.class | test($re; "i"))] | sort_by(.focusHistoryID) | .[].address')
+
+if [ ${#addrs[@]} -eq 0 ]; then
+  exec "$@"
+fi
+
+target="${addrs[0]}"
+active=$(hyprctl activewindow -j | jq -r '.address // empty')
+if [ "$target" = "$active" ] && [ ${#addrs[@]} -gt 1 ]; then
+  target="${addrs[-1]}"
+fi
+
+hyprctl dispatch "hl.dsp.focus({ window = \"address:$target\" })" >/dev/null

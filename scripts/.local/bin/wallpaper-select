@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+# Pick a wallpaper from ~/Pictures/wallpapers with thumbnails in wofi.
+# The choice is applied live through hyprpaper IPC and remembered through
+# the ~/.local/state/wallpaper/current symlink (read by hyprpaper.conf).
+set -euo pipefail
+
+dir="$HOME/Pictures/wallpapers"
+cache="$HOME/.cache/wallpaper-thumbs"
+state="$HOME/.local/state/wallpaper"
+mkdir -p "$cache" "$state"
+
+entries=""
+while IFS= read -r -d '' img; do
+  name=$(basename "$img")
+  thumb="$cache/${name%.*}.png"
+  if [ ! -f "$thumb" ] || [ "$img" -nt "$thumb" ]; then
+    magick "$img" -thumbnail 480x200^ -gravity center -extent 480x200 "$thumb"
+  fi
+  entries+="img:$thumb:text:$name"$'\n'
+done < <(find "$dir" -maxdepth 1 -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' \) -print0 | sort -z)
+
+[ -z "$entries" ] && { notify-send "Wallpapers" "No images in $dir"; exit 1; }
+
+choice=$(printf '%s' "$entries" | wofi --dmenu --prompt "Wallpaper" \
+  --width 560 --height 700 --cache-file /dev/null -D image_size=480) || exit 0
+name="${choice##*:}"
+img="$dir/$name"
+[ -f "$img" ] || exit 1
+
+ln -sfn "$img" "$state/current"
+for mon in $(hyprctl monitors -j | jq -r '.[].name'); do
+  hyprctl hyprpaper wallpaper "$mon,$img,cover" >/dev/null
+done
+notify-send -t 2000 "Wallpaper" "$name"
