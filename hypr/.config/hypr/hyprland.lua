@@ -293,15 +293,22 @@ local bin = os.getenv("HOME") .. "/.local/bin/"
 
 -- Example binds, see https://wiki.hypr.land/configuring/core/binds/ for more
 hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(terminal), { description = "Terminal" })
-local closeWindowBind = hl.bind(mainMod .. " + C", hl.dsp.window.close(), { description = "Close window" })
+local closeWindowBind = hl.bind(mainMod .. " + W", hl.dsp.window.close(), { description = "Close window" })
 -- closeWindowBind:set_enabled(false)
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"), { description = "Exit Hyprland" })
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(bin .. "focus-or-launch '^org\\.kde\\.dolphin$' " .. fileManager), { description = "File manager" })
-hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }), { description = "Toggle floating" })
+hl.bind(mainMod .. " + T", hl.dsp.window.float({ action = "toggle" }), { description = "Toggle floating" })
+hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen(), { description = "Toggle fullscreen" })
 hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(menu), { description = "App launcher" })
 hl.bind(mainMod .. " + K", hl.dsp.exec_cmd(bin .. "keybinds-menu"), { description = "Keybindings help" })
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo(), { description = "Pseudo-tile window" })
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"), { description = "Toggle split direction" })    -- dwindle only
+
+-- Universal clipboard (macOS style): SUPER sends neutral keys every app understands.
+-- Ctrl+Insert / Shift+Insert avoid Ctrl+C (SIGINT) in terminals; kitty maps them in kitty.conf.
+hl.bind(mainMod .. " + C", hl.dsp.send_shortcut({ mods = "CTRL",  key = "Insert" }), { description = "Copy" })
+hl.bind(mainMod .. " + V", hl.dsp.send_shortcut({ mods = "SHIFT", key = "Insert" }), { description = "Paste" })
+hl.bind(mainMod .. " + X", hl.dsp.send_shortcut({ mods = "CTRL",  key = "X" }),      { description = "Cut" })
 
 -- Switch keyboard layout (us <-> es)
 hl.bind(mainMod .. " + ALT + SPACE", hl.dsp.exec_cmd(bin .. "kb-layout-toggle"), { description = "Switch keyboard layout (us / es)" })
