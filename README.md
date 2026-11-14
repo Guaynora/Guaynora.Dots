@@ -19,6 +19,7 @@ My desktop setup on **Arch Linux + Hyprland**, themed with **Catppuccin Mocha** 
 | `btop` | Catppuccin theme, transparent background |
 | `yazi` | Terminal file manager with the Catppuccin flavor |
 | `theme` | GTK, Qt (qt6ct + Kvantum), KDE color scheme, Papirus icons and Catppuccin cursor |
+| `claude` | Claude Code settings and status line (context usage, 5h and weekly limits, session cost) |
 
 ## Installation
 
@@ -27,7 +28,7 @@ My desktop setup on **Arch Linux + Hyprland**, themed with **Catppuccin Mocha** 
 ```sh
 git clone https://github.com/Guaynora/Guaynora.Dots ~/.dotfiles
 cd ~/.dotfiles
-stow hypr waybar wofi dunst kitty zsh tmux nvim lazygit scripts starship fastfetch btop yazi theme
+stow hypr waybar wofi dunst kitty zsh tmux nvim lazygit scripts starship fastfetch btop yazi theme claude
 ```
 
 ### Manual steps
