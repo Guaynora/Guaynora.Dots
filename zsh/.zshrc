@@ -46,7 +46,7 @@ fi
 command -v bat     >/dev/null && alias cat='bat --paging=never --style=plain'
 command -v lazygit >/dev/null && alias lg='lazygit'
 command -v btop    >/dev/null && alias top='btop'
-command -v zoxide  >/dev/null && eval "$(zoxide init zsh --cmd cd)"   # cd learns your folders: "cd proj" jumps to ~/Projects
+command -v zoxide  >/dev/null && eval "$(zoxide init zsh)"   # z <dir> jumps to frecent folders, zi for interactive picker
 
 # ---------- fzf (Ctrl+R history, Ctrl+T files, Alt+C folders) ----------
 source /usr/share/fzf/key-bindings.zsh
