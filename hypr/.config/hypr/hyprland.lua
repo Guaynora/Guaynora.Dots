@@ -305,6 +305,9 @@ hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"), { description = "Toggle
 
 -- Switch keyboard layout (us <-> es)
 hl.bind(mainMod .. " + ALT + SPACE", hl.dsp.exec_cmd(bin .. "kb-layout-toggle"), { description = "Switch keyboard layout (us / es)" })
+-- On the "es" layout Right Alt becomes AltGr (MOD5), so the bind above stops matching
+-- and you get stuck in Spanish. Bind the AltGr variant too.
+hl.bind(mainMod .. " + MOD5 + SPACE", hl.dsp.exec_cmd(bin .. "kb-layout-toggle"), { description = "Switch keyboard layout (us / es, AltGr)" })
 
 -- Apps and menus (Omarchy style)
 -- Open-or-focus: jump to the app if it is already open, launch it otherwise
